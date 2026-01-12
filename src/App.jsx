@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Star, MapPin, Calendar, CreditCard, MessageCircle, User, Home, Settings, ChevronLeft, Check, Clock } from 'lucide-react';
 
 const App = () => {
@@ -25,6 +25,14 @@ const App = () => {
     { id: 3, service: 'Limpeza Residencial Completa', date: '15/12/2025', time: '10:00', price: 'R$ 180', rated: false, rating: 0 },
     { id: 4, service: 'Limpeza Pós-Obra', date: '01/12/2025', time: '08:00', price: 'R$ 350', rated: true, rating: 4 }
   ];
+
+  useEffect(() => {
+    if (userType === 'client') {
+      setCurrentView('home');
+    } else if (userType === 'provider') {
+      setCurrentView('provider-home');
+    }
+  }, [userType]);
 
   if (!userType) {
     return (
@@ -580,8 +588,7 @@ const App = () => {
 
       {userType === 'provider' && (
         <>
-          {currentView === 'home' && <ProviderHomeView />}
-          {currentView === 'provider-home' && <ProviderHomeView />}
+          {(currentView === 'home' || currentView === 'provider-home') && <ProviderHomeView />}
           {currentView === 'agenda' && <ProviderAgendaView />}
           {currentView === 'reviews' && <ProviderReviewsView />}
         </>
